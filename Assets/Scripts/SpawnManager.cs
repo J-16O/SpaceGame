@@ -113,7 +113,7 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 6f, 0f);
                     Instantiate(_enemyPrefab, spawnPos, Quaternion.identity);
 
-                    yield return new WaitForSeconds(0.5f); // ⏱️ Delay between spawns
+                    yield return new WaitForSeconds(0.5f); 
                 }
             }
 

@@ -143,7 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20601aced22d89a42934404754535288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHits: 10
-  laserPrefab: {fileID: 5843432276137198317, guid: 8b81d4efdb4639c41b20ee6157125318,
+  bosslaserPrefab: {fileID: 5843432276137198317, guid: 8b81d4efdb4639c41b20ee6157125318,
     type: 3}
-  laserSpawnPoints: []
+  fireRate: 2

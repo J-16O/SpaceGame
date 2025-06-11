@@ -104,7 +104,7 @@ public class Laser : MonoBehaviour
             Boss boss = other.GetComponent<Boss>() ?? other.GetComponentInParent<Boss>();
             if (boss != null)
             {
-                
+               boss.TakeDamage(); 
             }
             else
             {

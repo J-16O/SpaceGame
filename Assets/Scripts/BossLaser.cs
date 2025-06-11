@@ -3,7 +3,7 @@
 public class BossLaser : MonoBehaviour
 {
     public float speed = 5f;
-    public Vector2 direction; // <-- Add this
+    public Vector2 direction; 
 
     void Update()
     {
