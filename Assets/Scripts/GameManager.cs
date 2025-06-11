@@ -7,8 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _isGameOver;
     [SerializeField] private Text _finishText;
     [SerializeField] private Text _restartText;
-
-    private bool _isBossDestroyed = false;
+    
 
     void Update()
     {
@@ -29,7 +28,6 @@ public class GameManager : MonoBehaviour
         _finishText.gameObject.SetActive(true);
         _restartText.gameObject.SetActive(true);
         _isGameOver = true;
-        _isBossDestroyed = true;
     }
 
     public void GameOver()

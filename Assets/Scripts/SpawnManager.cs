@@ -15,11 +15,7 @@ public class SpawnManager : MonoBehaviour
     private GameObject magiccalerPrefab;
 
     [SerializeField] private bool _stopSpawning = false;
-
-    private float minEnemySpawnTime = 2f;
-    private float maxEnemySpawnTime = 5f;
-    private float maxPickupSpawnTime = 8f;
-
+    
     [SerializeField] private float nextEnemySpawnTime;
     [SerializeField] private float nextPickupSpawnTime;
     
@@ -98,29 +94,30 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator StartLevel(int currentLevel)
     {
-        _levelText.text = "LEVEL " + currentLevel;
-        _levelText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        _levelText.gameObject.SetActive(false);
+            _levelText.text = "LEVEL " + currentLevel;
+            _levelText.gameObject.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            _levelText.gameObject.SetActive(false);
 
-        this.currentLevel = currentLevel; // ✅ update the field!
-        _littleLevelText.text = "Level " + currentLevel;
-        
-        {
+            this.currentLevel = currentLevel;
+            _littleLevelText.text = "Level " + currentLevel;
+
             if (currentLevel <= 3)
             {
                 int enemyCount = 5;
                 if (currentLevel == 2) enemyCount = 7;
                 else if (currentLevel == 3) enemyCount = 10;
+
                 for (int i = 0; i < enemyCount; i++)
                 {
                     Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 6f, 0f);
                     Instantiate(_enemyPrefab, spawnPos, Quaternion.identity);
+
+                    yield return new WaitForSeconds(0.5f); // ⏱️ Delay between spawns
                 }
-                
             }
-        }
-        yield return null;
+
+            yield return null;
     }
     
     void SpawnBoss()

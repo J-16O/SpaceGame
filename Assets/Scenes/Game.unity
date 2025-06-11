@@ -2173,7 +2173,6 @@ MonoBehaviour:
   magiccalerPrefab: {fileID: 4082115940626033718, guid: b3e86234fd3be4d4d849402f4c24ad67,
     type: 3}
   _stopSpawning: 0
-  _isSpawning: 0
   nextEnemySpawnTime: 0
   nextPickupSpawnTime: 0
   _levelText: {fileID: 924314375}

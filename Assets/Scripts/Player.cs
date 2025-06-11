@@ -28,9 +28,7 @@ public class Player : MonoBehaviour
     private bool _IsTripleShotActive = false;
     private bool _IsSpeedBoosterActive = false;
     private bool _IsShieldsActive = false;
-    private bool _IsAmmoActive = false;
-    private bool _IsMagiccalerActive = false;
-    private bool _IsNegativeActive = false;
+    
      private bool _IsHomingLaserActive = false;
     
     [SerializeField] private AudioClip _laserSoundClip;
@@ -152,7 +150,7 @@ public class Player : MonoBehaviour
     {
         if (_IsShieldsActive)
         {
-            TakeDamage();  
+            TakeDamage();
             if (_shieldPower == 0)
             {
                 _shieldVisualizer.SetActive(false); 
@@ -161,10 +159,19 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _lives--;  
+            _lives--;
+
+       
+            if (_lives < 0)
+            {
+                _lives = 0;
+                Debug.LogWarning("Player lives dropped below 0. Clamped to 0.");
+            }
         }
 
-        
+    
+        _uiManager.UpdateLives(_lives);
+
         if (_lives == 2)
         {
             _leftEngine.SetActive(true);
@@ -173,8 +180,6 @@ public class Player : MonoBehaviour
         {
             _rightEngine.SetActive(true);
         }
-
-        _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
         {
@@ -224,7 +229,6 @@ public class Player : MonoBehaviour
     
     public void AmmoActive()
     {
-        _IsAmmoActive = true;
         _ammocount = 15;
         _uiManager.UpdateAmmoCount(_ammocount);
     }
@@ -245,8 +249,6 @@ public class Player : MonoBehaviour
 
     public void NegativeActive()
     {
-        _IsNegativeActive = true;
-
         if (_lives > 0)
         {
             Damage();

@@ -8,36 +8,61 @@ public class HomingLaser : MonoBehaviour
 
     private Collider2D[] _enemies;
     Transform _target;
-    
-   
-    
+
+
+
     void Update()
     {
-        _enemies = Physics2D.OverlapCircleAll(transform.position, 20f, LayerMask.GetMask("Enemy"));
-
-        if (_enemies.Length == 0)
-        {
-            transform.Translate(Vector2.up * _speed * Time.deltaTime);
-        }
-        else
-        {
-            foreach (var enemy in _enemies)
+        
+        
+            if (_target == null)
             {
-                float distance = Vector2.Distance(transform.position, enemy.transform.position);
+                _enemies = Physics2D.OverlapCircleAll(transform.position, 20f, LayerMask.GetMask("Enemy"));
 
-                if (distance < _distanceToClosestEnemy)
+                if (_enemies.Length == 0)
                 {
-                    _distanceToClosestEnemy = distance;
-                    _target = enemy.transform;
+                    transform.Translate(Vector2.up * _speed * Time.deltaTime);
                 }
-                
-                transform.position = Vector2.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime );
-            }
-        }
+                else
+                {
+                    _distanceToClosestEnemy = float.MaxValue;
 
-        if (transform.position.y > 6f)
+                    foreach (var enemy in _enemies)
+                    {
+                        float distance = Vector2.Distance(transform.position, enemy.transform.position);
+
+                        if (distance < _distanceToClosestEnemy)
+                        {
+                            _distanceToClosestEnemy = distance;
+                            _target = enemy.transform;
+                        }
+                    }
+                }
+            }
+
+            if (_target != null)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+            }
+
+            if (transform.position.y > 6f)
+            {
+                Destroy(this.gameObject);
+            }
+        
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
         {
-            Destroy(this.gameObject);
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(); 
+            }
+
+            Destroy(this.gameObject); 
         }
     }
 }

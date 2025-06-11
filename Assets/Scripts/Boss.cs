@@ -2,30 +2,17 @@
 
 public class Boss : MonoBehaviour
 {
-    public int maxHits = 10;  
-    private int currentHits = 0;
-    private GameManager gameManager;
-    public void TakeDamage()
-    {
-        currentHits++;
-        Debug.Log("Boss hit: " + currentHits + "/" + maxHits);
+    [SerializeField] private GameObject bosslaserPrefab;
+    [SerializeField] private float fireRate = 2.0f;
+    private float _canFire = -1f;
 
-        if (currentHits >= maxHits)
+    void Update()
+    {
+        if (Time.time > _canFire)
         {
-            Debug.Log("Boss defeated!");
-            gameManager = FindObjectOfType<GameManager>(); 
-            gameManager.EndGame();                        
-            Destroy(gameObject);                        
+            _canFire = Time.time + fireRate;
+            Instantiate(bosslaserPrefab, transform.position, Quaternion.identity);
         }
     }
-
-
-
-
-
-
-
-
-
 
 }

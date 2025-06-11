@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Laser
-  - Laser1
   - Pickups
   - Boss
+  - BossLaser
   layers:
   - Default
   - TransparentFX

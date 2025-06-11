@@ -63,19 +63,26 @@ public class Enemy : MonoBehaviour
 
     private void InitializeEnemy()
     {
-        _playerTransform = GameObject.FindWithTag("Player")?.transform;
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        GameObject playerObj = GameObject.Find("Player");
+
+        if (playerObj != null)
+        {
+            _player = playerObj.GetComponent<Player>();
+            _playerTransform = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("Player GameObject not found! Make sure it's named exactly 'Player'.");
+        }
+
         _anim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
 
-        if (_player == null) Debug.LogError("Player is NULL.");
+        if (_player == null) Debug.LogError("Player component is NULL.");
         if (_anim == null) Debug.LogError("Animator is NULL.");
 
         // Random aggression
-        if (Random.value < 1f)
-        {
-            _isAggressive = true;
-        }
+        _isAggressive = (Random.value < 1f);
 
         // Shield logic
         if (Random.value < 0.3f)
@@ -141,23 +148,7 @@ public class Enemy : MonoBehaviour
 
             TriggerDeath();
         }
-
-        if (other.CompareTag("Laser"))
-        {
-            Destroy(other.gameObject);
-            _health--;
-
-            if (_health == 1)
-            {
-                _shieldVisualizer?.SetActive(false);
-            }
-
-            if (_health <= 0)
-            {
-                _player?.Addscore(10);
-                TriggerDeath();
-            }
-        }
+        
     }
     
 
@@ -167,6 +158,22 @@ public class Enemy : MonoBehaviour
         _speed = 0;
         Destroy(GetComponent<Collider2D>());
         Destroy(gameObject, 2.5f);
+    }
+    
+    public void TakeDamage()
+    {
+        _health--;
+
+        if (_health == 1)
+        {
+            _shieldVisualizer?.SetActive(false);
+        }
+
+        if (_health <= 0)
+        {
+            _player?.Addscore(10);
+            TriggerDeath();
+        }
     }
 }
 

@@ -5,10 +5,10 @@ public class Laser : MonoBehaviour
     [SerializeField] private float _speed = 7.0f;
     [SerializeField] private AudioClip _ammoBuzzer;
     public int _AmmoCount = 15;
-    private bool _isEnemyLaser = false; 
+    private bool _isEnemyLaser = false;
     public bool isPlayerLaser = true;
 
-    
+
     void Update()
     {
         if (_isEnemyLaser)
@@ -19,8 +19,8 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        
-        
+
+
         if (Mathf.Abs(transform.position.y) > 10f)
         {
             Destroy(this.gameObject);
@@ -37,6 +37,7 @@ public class Laser : MonoBehaviour
             {
                 Destroy(transform.parent.gameObject);
             }
+
             Destroy(this.gameObject);
         }
     }
@@ -51,6 +52,7 @@ public class Laser : MonoBehaviour
             {
                 Destroy(transform.parent.gameObject);
             }
+
             Destroy(this.gameObject);
         }
     }
@@ -58,10 +60,10 @@ public class Laser : MonoBehaviour
     public void AssignEnemyLaser()
     {
         _isEnemyLaser = true;
-        isPlayerLaser = false; 
+        isPlayerLaser = false;
     }
-    
-    
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && _isEnemyLaser)
@@ -71,40 +73,48 @@ public class Laser : MonoBehaviour
             {
                 player.Damage();
             }
+
             Destroy(this.gameObject);
         }
 
-        
+
         if (other.CompareTag("Enemy") && isPlayerLaser)
         {
-            Destroy(other.gameObject); 
-            Destroy(this.gameObject); 
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage();
+            }
+
+            Destroy(gameObject);
         }
 
-       
-        if (other.CompareTag("Pickups"))
+
+        if (other.CompareTag("Pickups") && _isEnemyLaser)
         {
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
-        
-        
+
+
         if (other.CompareTag("Boss") && isPlayerLaser)
         {
-            
+
             Debug.Log("Laser collided with: " + other.name);
             Boss boss = other.GetComponent<Boss>() ?? other.GetComponentInParent<Boss>();
             if (boss != null)
             {
-                boss.TakeDamage();
+                
             }
             else
             {
                 Debug.Log("Boss is null");
             }
+
             Destroy(gameObject);
         }
-        
+
     }
 }
+
 

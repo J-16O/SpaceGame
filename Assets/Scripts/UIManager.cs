@@ -31,12 +31,25 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScore(int playerScore)
     {
-        _scoreText.text = "Score:" + playerScore.ToString();
+        _scoreText.text = "Score:" + playerScore;
     }
 
     public void UpdateLives(int currentLives)
     {
+        if (currentLives < 0)
+        {
+            currentLives = 0;
+            Debug.LogWarning("Clamped currentLives to 0 because it was negative.");
+        }
+
+        if (currentLives >= _liveSprites.Length)
+        {
+            currentLives = _liveSprites.Length - 1;
+            Debug.LogWarning("Clamped currentLives to max index of liveSprites.");
+        }
+
         _livesImg.sprite = _liveSprites[currentLives];
+
         if (currentLives == 0)
         {
             GameOverSequence();
